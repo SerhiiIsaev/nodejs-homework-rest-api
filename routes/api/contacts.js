@@ -1,72 +1,27 @@
 const express = require('express')
-const contacts = require('../../models/contacts')
-const {HttpError} = require('../../helpers')
-
 const { validateBody } = require('../../middlewares')
-const {validatingSchema} = require('../../Schemas/validatingShema')
+const {
+  addOne,
+  deleteBuId,
+  getAll,
+  getById,
+  updateById,
+  updateStatus
+} = require("../../controllers/contacts");
+const {validatingSchema, updateFavoriteSchema} = require('../../Schemas/validatingShema')
 const router = express.Router()
 
+router.get('/', getAll)
 
+router.get('/:id', getById)
 
-router.get('/', async (req, res, next) => {
-  try {
-    const result = await contacts.listContacts()
-    res.json(result)
-  } catch (error) {
-    next(error)
-  }
-  
-})
+router.post('/',validateBody(validatingSchema), addOne)
 
-router.get('/:id', async (req, res, next) => {
-  try {
-    const { id } = req.params
-    const result = await contacts.getContactById(id)
-    if (!result) {
-      throw HttpError(404, 'Not Found')
-    }
-    res.json(result)
-  } catch (error) {
-    next(error)
-  }
-  
-})
+router.delete('/:id', deleteBuId)
 
-router.post('/',validateBody(validatingSchema), async (req, res, next) => {
-  try {
-    const result = await contacts.addContact(req.body)
-    res.status(201).json(result)
-  } catch (error) {
-    next(error)
-  }
-})
+router.put('/:id',validateBody(validatingSchema), updateById)
 
-router.delete('/:contactId', async (req, res, next) => {
-  try {
-    const { contactId } = req.params
-    const result = await contacts.removeContact(contactId)
-    if (!result) {
-      throw HttpError(404, "Not found")
-    }
-    res.json({
-      message: "Contact deleted"
-    })
-  } catch (error) {
-    next(error)
-  }
-})
+router.patch('/:id/favorite',validateBody(updateFavoriteSchema), updateStatus)
 
-router.put('/:contactId',validateBody(validatingSchema), async (req, res, next) => {
-  try {
-    const { contactId } = req.params
-    const result = await contacts.updateContact(contactId, req.body)
-    if (!result) {
-      throw HttpError(404, "Not found")
-    }
-    res.json(result)
-  } catch (error) {
-    next(error)
-  }
-})
 
 module.exports = router
