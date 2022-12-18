@@ -1,6 +1,7 @@
 const app = require('./app')
 const mongoose = require("mongoose")
-const DB_HOST = "mongodb+srv://serhii:g2Y4JU847xHabFaq@cluster0.6kah6jn.mongodb.net/db-contacts?retryWrites=true&w=majority"
+require("dotenv").config()
+const {DB_HOST} = process.env
 const PORT = 3000
 
 mongoose.connect(DB_HOST)
@@ -10,3 +11,4 @@ mongoose.connect(DB_HOST)
     console.log(error.message);
     process.exit(1)
   })
+  
