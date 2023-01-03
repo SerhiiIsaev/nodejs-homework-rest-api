@@ -1,5 +1,5 @@
 const register = require("./register")
-// const deleteBuId = require("./deleteById")
+const login = require("./login")
 // const getAll = require("./getAll")
 // const getById = require("./getById")
 // const updateById = require("./updateById")
@@ -7,5 +7,5 @@ const register = require("./register")
 
 module.exports = {
     register,
-    
+    login,
 }

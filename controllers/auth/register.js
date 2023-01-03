@@ -4,7 +4,7 @@ const User = require("../../models/user")
 
 const {HttpError} = require("../../helpers")
 
-const register = async (req, res) => {
+const register = async (req, res, next) => {
     console.log(req.body)
     try {
         const { email, password } = req.body;
@@ -20,8 +20,11 @@ const register = async (req, res) => {
         const newUser = await User.create({...req.body, password: hashPassword});
 
         res.status(201).json({
-            email: newUser.email,
-            subscription: newUser.subscription,
+            user: {
+                email: newUser.email,
+                subscription: newUser.subscription,
+            }
+            
         }) 
     } catch (error) {
         next(error)
