@@ -5,7 +5,6 @@ const User = require("../../models/user")
 const {HttpError} = require("../../helpers")
 
 const register = async (req, res, next) => {
-    console.log(req.body)
     try {
         const { email, password } = req.body;
         
