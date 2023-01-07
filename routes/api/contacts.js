@@ -1,5 +1,5 @@
 const express = require('express')
-const { validateBody } = require('../../middlewares')
+const { validateBody, authenticate } = require('../../middlewares')
 const {
   addOne,
   deleteBuId,
@@ -11,17 +11,17 @@ const {
 const {validatingSchema, updateFavoriteSchema} = require('../../Schemas/validatingShema')
 const router = express.Router()
 
-router.get('/', getAll)
+router.get('/', authenticate, getAll)
 
-router.get('/:id', getById)
+router.get('/:id', authenticate, getById)
 
-router.post('/',validateBody(validatingSchema), addOne)
+router.post('/', authenticate, validateBody(validatingSchema), addOne)
 
-router.delete('/:id', deleteBuId)
+router.delete('/:id', authenticate, deleteBuId)
 
-router.put('/:id',validateBody(validatingSchema), updateById)
+router.put('/:id', authenticate,validateBody(validatingSchema), updateById)
 
-router.patch('/:id/favorite',validateBody(updateFavoriteSchema), updateStatus)
+router.patch('/:id/favorite', authenticate, validateBody(updateFavoriteSchema), updateStatus)
 
 
 module.exports = router

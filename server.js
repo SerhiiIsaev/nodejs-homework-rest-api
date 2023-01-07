@@ -4,6 +4,8 @@ require("dotenv").config()
 const {DB_HOST} = process.env
 const PORT = 3000
 
+mongoose.set("strictQuery", true)
+
 mongoose.connect(DB_HOST)
   .then(()=> console.log("Database connection successful"))
   .then(()=> app.listen(PORT))
