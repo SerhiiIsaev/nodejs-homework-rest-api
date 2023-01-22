@@ -3,6 +3,7 @@ const gravatar = require("gravatar")
 const {nanoid} = require('nanoid')
 
 const User = require("../../models/user")
+const { BASE_URL } = process.env
 
 const {HttpError, sendEmail} = require("../../helpers")
 
@@ -24,7 +25,7 @@ const register = async (req, res, next) => {
         const verifyEmail = {
             to: email,
             subject: "Verify your email",
-            html: `<a target="_blank" href="http://localhost:3000/api/contacts/verify/${verificationToken}">Click verify email</a>`
+            html: `<a terget="_blank" href="${BASE_URL}/api/auth/verify/${verificationToken}">Click to verify your email</a>`
         }
 
         await sendEmail(verifyEmail)
